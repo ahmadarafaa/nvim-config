@@ -1,0 +1,23 @@
+# --- lazy.nvim ---
+# lazy-lock.json is INTENTIONALLY kept and committed - it pins exact plugin
+# commits for reproducibility. Do not ignore it.
+
+# --- swap / undo / backup files (should not exist inside this repo, but ignore just in case) ---
+*.swp
+*.swo
+*.swn
+*.un~
+undodir/
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+
+# --- editor/session artifacts that could get dropped here by accident ---
+*.log
+Session.vim
+.netrwhist
+
+# --- local overrides / secrets, in case one gets added later ---
+lua/ahmed/local.lua
+.env
