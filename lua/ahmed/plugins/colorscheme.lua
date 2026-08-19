@@ -34,6 +34,10 @@ return {
       })
 
       vim.cmd.colorscheme("catppuccin")
+
+      -- fade git blame virtual text like a comment (dim + italic) instead of
+      -- catppuccin's flat surface1 gray
+      vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comment" })
     end,
   },
 }
