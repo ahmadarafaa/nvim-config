@@ -218,6 +218,21 @@ formatter matches); linting runs on `BufEnter`, `BufWritePost`, and
   [keymaps](#keymap-reference) below).
 - **lazygit.nvim** for a full git TUI (`<leader>lg`).
 
+### Note-taking (Obsidian)
+
+- **obsidian.nvim** — vault at `~/Documents/notes`. Lazy-loads only for
+  markdown files inside that path (`lua/ahmed/plugins/obsidian.lua`), so it
+  never activates for unrelated `.md` files elsewhere. Its own UI module
+  (link/checkbox concealing) is deliberately **disabled** — render-markdown.nvim
+  is the single visual renderer everywhere, avoiding the two plugins fighting
+  over the same extmarks. Daily notes go to a `daily/` subfolder inside the
+  vault. Completion source is registered with nvim-cmp, scoped to the
+  `markdown` filetype only.
+- **nvim-surround** — markdown-specific bold/italic/strikethrough/link
+  surrounds are added only for `markdown` buffers
+  (`lua/ahmed/plugins/surround.lua`), so they don't shadow nvim-surround's
+  default `()`/`{}`/`[]`/`""` aliases in other filetypes.
+
 ### Kubernetes-specific notes
 
 Live YAML schema validation via `yamlls` is **intentionally not enabled**
@@ -325,6 +340,39 @@ Leader is `<Space>`.
 | Keymap | Action |
 |---|---|
 | `<leader>mp` | Format file (or range in visual mode) |
+
+### Obsidian (`obsidian.lua`, active only inside `~/Documents/notes`)
+
+| Keymap | Action |
+|---|---|
+| `<leader>on` | New note |
+| `<leader>oo` | Quick switch (Telescope picker across vault) |
+| `<leader>os` | Search vault |
+| `<leader>ol` | Follow link under cursor |
+| `<leader>ob` | Show backlinks |
+| `<leader>ot` | Toggle checkbox |
+| `<leader>og` | Open/create today's daily note |
+
+### Markdown formatting (`surround.lua`, nvim-surround, active only in markdown buffers)
+
+nvim-surround uses vim's operator + motion grammar: `ys{motion}{char}` adds a
+surround around a motion/text object, `yss{char}` surrounds the whole current
+line (like `dd` acts on a whole line), and in visual mode `S{char}` surrounds
+the selection. `ds{char}` deletes a surround, `cs{char1}{char2}` changes one
+surround into another.
+
+| Trigger char | Delimiters | Example |
+|---|---|---|
+| `b` | `**...**` (bold) | `ysiwb` bolds the word under cursor |
+| `i` | `*...*` (italic) | `Si` italicizes a visual selection |
+| `s` | `~~...~~` (strikethrough) | `ysiws` |
+| `` ` `` | `` `...` `` (inline code, built-in default) | `ysiw\`` |
+| `l` | `[...](url)`, prompts for the URL | `ysiwl` then type the link |
+
+Examples: `ysiwb` bolds the current word, `yssb` bolds the whole line,
+visually select text and press `Sb`/`Si`/`Ss`/`Sl` to wrap the selection,
+`dsb` removes bold from text the cursor is inside, `csbi` changes bold to
+italic.
 
 ## Known quirks / gotchas
 
